@@ -17,6 +17,22 @@ import java.util.Objects;
  */
 public class Token {
     
+    public static final int COMA = ',';
+    public static final int PUNTO = '.';
+    public static final int PUNTO_COMA = ';';
+    public static final int PAR_IZQ = '(';
+    public static final int PAR_DER = ')';
+    public static final int ATOMO = 600;
+    public static final int VARIABLE = 700;
+    public static final int PREDICADO = 800;
+    public static final int ENTERO = 900;
+    public static final int PTO_FIJO = 1000;
+    public static final int PTO_FLOT = 1100;
+    public static final int IMPLICA = 1200;
+    public static final int LISTA = 1300;
+    public static final int CADENA = 1400;
+    
+    
     private Integer linea;
     private int token;
     private String lexema;
