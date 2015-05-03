@@ -1,3 +1,5 @@
+package Generated_Sources;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileReader;
@@ -18,6 +20,10 @@ import mx.uach.compiladores.a.analizadorlexico.Token;
 
     public Token token(int linea, int tk, String cadena){
         return new Token(linea, tk, cadena);
+    }
+
+    public Boolean getzzAtEOF(){
+        return zzAtEOF;
     }
 
     public static void main(String[] args) {
@@ -87,10 +93,26 @@ cadena     = \"{entrada}*\"
         "Error lexico en la linea %d: falta un ' para cerrar la cadena",
         (yyline +1)));}
 
-"0"[0-9]* \" {throw new Error(String.format(
+[+-][0-9]+ | [0-9]+  {throw new Error(String.format(
         "Error lexico en la linea %d: El unico entero que debe iniciar con cero es '0'",
         (yyline +1)));}
 
 [:lowercase:][a-zA-Z0-9_]* {especial} {throw new Error(String.format(
-        "Error lexico en la linea %d: %s no es un atomo valido,
+        "Error lexico en la linea %d: %s no es un atomo valido",
+        (yyline +1), yytext()));}
+
+{especial}+[a-zA-Z0-9] {throw new Error(String.format(
+        "Error lexico en la linea %d: %s no es un atomo valido",
+        (yyline +1), yytext()));}
+
+{variable}{especial}+ {throw new Error(String.format(
+        "Error lexico en la linea %d: %s no es una variable valida",
+        (yyline +1), yytext()));}
+
+{pto_fijo}[a-zA-Z] {throw new Error(String.format(
+        "Error lexico en la linea %d: %s no es un punto fijo valido",
+        (yyline +1), yytext()));}
+
+({entero} | {pto_fijo})[A-Za-z]({entero} | {pto_flot}) {throw new Error(
+        String.format( "Error lexico en la linea %d: %s no es un punto flotante valido",
         (yyline +1), yytext()));}
