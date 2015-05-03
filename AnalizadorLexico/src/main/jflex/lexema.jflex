@@ -47,7 +47,7 @@ import mx.uach.compiladores.a.analizadorlexico.Token;
 
 entrada         = [^\r\n]
 espaciosBlancos = [\r\n \t\f]
-especial        = [^ \t\f\r\na-zA-Z0-9]
+especial        = [^ \t\f\r\na-zA-Z0-9\"\',;]
 atomo      = [:lowercase:][a-zA-Z0-9_]* |  {especial}+ | \'{entrada}+\'
 variable   = [:uppercase:][a-zA-Z0-9_]*
 entero     = [+-]("0" | [1-9][0-9]*) | "0" | [1-9][0-9]*
@@ -75,5 +75,22 @@ cadena     = \"{entrada}*\"
 
 {espaciosBlancos} {/* Ignorar */}
 
-{atomo}"()" {throw new Error("Los predicados deben tener argumentos")}
-[^] {throw new Error("cadena no reconocida")}
+{atomo}"()" {throw new Error(String.format(
+        "Error lexico en la linea %d: Los predicados deben tener argumentos",
+        (yyline +1)));}
+
+\"           {throw new Error(String.format(
+        "Error lexico en la linea %d: falta un \" para cerrar la cadena",
+        (yyline +1)));}
+
+\'           {throw new Error(String.format(
+        "Error lexico en la linea %d: falta un ' para cerrar la cadena",
+        (yyline +1)));}
+
+"0"[0-9]* \" {throw new Error(String.format(
+        "Error lexico en la linea %d: El unico entero que debe iniciar con cero es '0'",
+        (yyline +1)));}
+
+[:lowercase:][a-zA-Z0-9_]* {especial} {throw new Error(String.format(
+        "Error lexico en la linea %d: %s no es un atomo valido,
+        (yyline +1), yytext()));}
