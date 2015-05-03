@@ -5,19 +5,33 @@ import mx.uach.compiladores.a.analizadorlexico.Token;
 %%
 %public
 %class Lexer
-%standalone
+%integer
 %line
 %{
     private List<Token> tokens = new ArrayList<>();
 %}
 %{
-    public List<Token> analizar (String archivo){
+    public List<Token> analizar (){
+        
+        return this.tokens;
+    }
+
+    public Token token(int linea, int tk, String cadena){
+        return new Token(linea, tk, cadena);
+    }
+
+    public static void main(String[] args) {
         FileReader in = null;
+        String archivo = null;
         try{
+            archivo = args[0];
             in = new FileReader(archivo);
             Lexer lexer = new Lexer(in);
             while(!lexer.zzAtEOF){
                 lexer.yylex();
+            }
+            for(Token t: lexer.analizar()){
+                System.out.println(t);
             }
         } catch (Exception ex){
             System.out.println("Error al analizar el archivo");
@@ -28,11 +42,6 @@ import mx.uach.compiladores.a.analizadorlexico.Token;
                 System.out.println("Error al cerrar el archivo");
             }
         }
-        return this.tokens;
-    }
-
-    public Token token(int linea, int tk, String cadena){
-        return new Token(linea, tk, cadena);
     }
 %}
 
@@ -48,19 +57,23 @@ cadena     = \"{entrada}*\"
 
 %%
 
-";"     {System.out.println(token(yyline, ';',  yytext()).toString());}
-","
-"."
-"("
-")"
-":-"
+";"     {tokens.add(token(yyline +1, ';',  yytext()));}
+","     {tokens.add(token(yyline +1, ',',  yytext()));}
+"("     {tokens.add(token(yyline +1, '(',  yytext()));}
+")"     {tokens.add(token(yyline +1, ')',  yytext()));}
 
-{atomo}  {System.out.println(token(yyline, Token.ATOMO,  yytext()).toString());}
-{entero} {System.out.println(token(yyline, Token.ENTERO, yytext()).toString());}
-{cadena} {System.out.println(token(yyline, Token.CADENA, yytext()).toString());}
-{variable} {System.out.println(token(yyline, Token.VARIABLE, yytext()).toString());}
-{pto_fijo} {System.out.println(token(yyline, Token.PTO_FIJO, yytext()).toString());}
-{pto_flot} {System.out.println(token(yyline, Token.PTO_FLOT, yytext()).toString());}
+":-"    {tokens.add(token(yyline +1, Token.IMPLICA, yytext()));}
+"[]"    {tokens.add(token(yyline +1, Token.LISTA,   yytext()));}
 
+{atomo}  {tokens.add(token(yyline +1, Token.ATOMO,  yytext()));}
+{entero} {tokens.add(token(yyline +1, Token.ENTERO, yytext()));}
+{cadena} {tokens.add(token(yyline +1, Token.CADENA, yytext()));}
+
+{variable} {tokens.add(token(yyline +1, Token.VARIABLE, yytext()));}
+{pto_fijo} {tokens.add(token(yyline +1, Token.PTO_FIJO, yytext()));}
+{pto_flot} {tokens.add(token(yyline +1, Token.PTO_FLOT, yytext()));}
 
 {espaciosBlancos} {/* Ignorar */}
+
+{atomo}"()" {throw new Error("Los predicados deben tener argumentos")}
+[^] {throw new Error("cadena no reconocida")}
