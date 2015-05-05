@@ -3,7 +3,10 @@
 1e2;
 14.2E8;
 holisXD;
-'uas/(;
+'uas/(';
 "hola a todos";
 LasCosasDeLaVida
 "   jjjj    ";
+[1, 2, "hola", Todos];
+[];
+saludar("como estas", "TodoBien", [cosas("cosas")]);
