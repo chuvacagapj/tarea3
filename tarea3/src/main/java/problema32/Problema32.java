@@ -39,7 +39,49 @@ public class Problema32 {
         }
     }
     
-    public static void main(String[] args) {
+    public static void factorial(int n){
+        int resultado = 1;
+        if (n < 0) {
+            throw new Error(String.format("El valor %d no es valido", n));
+        }
+        
+        for (int i = 1; i == n; i++) {
+            resultado *= i;
+        }
+        
+        System.out.println(String.format("%d! = %d", n, resultado));
+    }
+    
+    public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+        boolean bandera = true;
+        char entrada;
+        int n;
+        
+        System.out.println("Introduzca un valor");
+        n = Integer.parseInt(input.readLine());
+        
+        while (bandera) {
+            System.out.println("Elija una de las siguientes opciones\n" +
+                    "\t1) saber si el numero es primo\n"+
+                    "\t2) Calcular el factorial del numero\n"+
+                    "\t3) Calcular la tabla de multiplicar\n" +
+                    "\nCualquier otra opcion para salir");
+            entrada = input.readLine().charAt(0);
+            
+            switch (entrada) {
+                case '1':
+                    primo(n);
+                    break;
+                case '2':
+                    factorial(n);
+                    break;
+                case '3':
+                    multiplicacion(n);
+                    break;
+                default:
+                    bandera = false;
+            }
+        }
     }
 }
