@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package problema27;
+package problema22;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,20 +13,18 @@ import java.io.InputStreamReader;
  *
  * @author jesus
  */
-public class Problema27 {
+public class problema22 {
     
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        int entrada;
+        String frase;
         
-        System.out.println("Introdusca el numero para la tabla");
-        entrada = Integer.parseInt(input.readLine());
+        System.out.println("Introdusca una frace");
+        frase = input.readLine();
         
-        if (entrada < 0 || entrada > 10)
-            throw new Error(String.format("%s numero no soportado", entrada));
-        
-        for (int i = 0; i <= 10; i++) {
-            System.out.println(String.format("  %d * %2d = %d", entrada, i, entrada*i));
+        for (int i = 0; i < 5; i++) {
+            frase = String.format("    %s", frase);
+            System.out.println(frase);
         }
     }
 }
