@@ -45,7 +45,7 @@ public class Empleado {
     }
 
     public void setDni(String dni) {
-        this.dni = dni;
+        this.dni = dni.toUpperCase();
     }
 
     public String getNombre() {
@@ -53,7 +53,7 @@ public class Empleado {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toUpperCase();
     }
 
     public String getApellidos() {
@@ -61,7 +61,7 @@ public class Empleado {
     }
 
     public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+        this.apellidos = apellidos.toUpperCase();
     }
 
     public String getDireccion() {
@@ -69,7 +69,7 @@ public class Empleado {
     }
 
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion = direccion.toUpperCase();
     }
 
     public String getProvincia() {
@@ -77,7 +77,7 @@ public class Empleado {
     }
 
     public void setProvincia(String provincia) {
-        this.provincia = provincia;
+        this.provincia = provincia.toUpperCase();
     }
 
     @Override
@@ -101,10 +101,13 @@ public class Empleado {
             return false;
         }
         final Empleado other = (Empleado) obj;
-        if (!Objects.equals(this.dni, other.dni)) {
-            return false;
+        if (Objects.equals(this.dni, other.dni)) {
+            return true;
         }
-        return true;
+        if (Objects.equals(this.provincia, other.provincia)) {
+            return true;
+        }
+        return false;
     }
     
     
